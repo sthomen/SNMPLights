@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">SNMPLights</string>
+	<string name="app_name">SNMPLights</string>
+
+	<string name="prefs_name">Preferences</string>
+
+	<string name="prefs_snmp">SNMP Settings</string>
+	<string name="prefs_oidbase">OID base</string>
+	<string name="prefs_oidbase_summary">The base OID to use</string>
+	<string name="prefs_username">SNMP Username</string>
+	<string name="prefs_auth_password">SNMP Auth Password</string>
+	<string name="prefs_auth_protocol">SNMP Auth Protocol</string>
+	<string name="prefs_host">SNMP Agent Hostname</string>
+	<string name="prefs_port">SNMP Agent Port</string>
+
+	<string name="preferences">Preferences</string>
 </resources>

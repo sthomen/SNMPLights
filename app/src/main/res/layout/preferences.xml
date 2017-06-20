@@ -1,0 +1,39 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:key="main_preferences">
+	<PreferenceCategory android:title="@string/prefs_snmp">
+		<EditTextPreference
+			android:key="net.shangtai.snmplights.OIDBASE"
+			android:title="@string/prefs_oidbase"
+			android:defaultValue=".1.3.6.1.4.1.8072.9999.9999.1.2"
+			android:singleLine="true"
+			android:summary="@string/prefs_oidbase_summary" />
+		<EditTextPreference
+			android:key="net.shangtai.snmplights.USERNAME"
+			android:title="@string/prefs_username"
+			android:singleLine="true"
+			android:defaultValue="snmpuser" />
+		<EditTextPreference
+			android:key="net.shangtai.snmplights.AUTH_PASSWORD"
+			android:title="@string/prefs_auth_password"
+			android:singleLine="true"
+			android:password="true"
+			android:defaultValue="password" />
+		<ListPreference
+			android:key="net.shangtai.snmplights.AUTH_PROTOCOL"
+			android:title="@string/prefs_auth_protocol"
+			android:dialogTitle="@string/prefs_auth_protocol"
+			android:entries="@array/prefs_protocols"
+			android:entryValues="@array/prefs_protocols"
+			android:defaultValue="SHA" />
+		<EditTextPreference
+			android:key="net.shangtai.snmplights.HOST"
+			android:title="@string/prefs_host"
+			android:singleLine="true"
+			android:defaultValue="" />
+		<EditTextPreference
+			android:key="net.shangtai.snmplights.PORT"
+			android:title="@string/prefs_port"
+			android:singleLine="true"
+			android:defaultValue="161" />
+	</PreferenceCategory>
+</PreferenceScreen>
