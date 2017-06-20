@@ -20,6 +20,5 @@ public class SNMPClientService extends IntentService {
     }
 
     public void probeDevices() {
-        snmp.
     }
 }
