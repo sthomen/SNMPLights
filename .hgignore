@@ -1,0 +1,8 @@
+syntax: glob
+build/
+*.iml
+.gradle
+captures
+.externalNativeBuild
+local.properties
+gradle
