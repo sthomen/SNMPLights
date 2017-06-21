@@ -1,6 +1,7 @@
 <resources>
 	<string name="app_name">SNMPLights</string>
 
+	<!-- Preferences -->
 	<string name="prefs_name">Preferences</string>
 
 	<string name="prefs_snmp">SNMP Settings</string>
@@ -13,4 +14,13 @@
 	<string name="prefs_port">SNMP Agent Port</string>
 
 	<string name="preferences">Preferences</string>
+
+	<!-- menu -->
+	<string name="menu_prefs">Prefs</string>
+
+	<!-- devices -->
+
+	<!-- switches -->
+	<string name="switch_on">On</string>
+	<string name="switch_off">Off</string>
 </resources>
