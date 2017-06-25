@@ -1,10 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="net.shangtai.snmplights"
-	android:versionCode="1"
-	android:versionName="1.0">
+	package="net.shangtai.snmplights">
 
 	<application
 		android:allowBackup="true"
+		android:fullBackupContent="@xml/backup_rules"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:supportsRtl="true"
