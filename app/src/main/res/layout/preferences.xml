@@ -4,36 +4,42 @@
 		<EditTextPreference
 			android:key="net.shangtai.snmplights.OIDBASE"
 			android:title="@string/prefs_oidbase"
-			android:defaultValue=".1.3.6.1.4.1.8072.9999.9999.1.2"
-			android:singleLine="true"
-			android:summary="@string/prefs_oidbase_summary" />
+			android:defaultValue="1.3.6.1.4.1.8072.9999.9999.1.2"
+			android:maxLines="1" />
+		<EditTextPreference
+			android:key="net.shangtai.snmplights.HOST"
+			android:title="@string/prefs_host"
+			android:maxLines="1"
+			android:defaultValue="" />
+		<EditTextPreference
+			android:key="net.shangtai.snmplights.PORT"
+			android:title="@string/prefs_port"
+			android:maxLines="1"
+			android:defaultValue="161" />
 		<EditTextPreference
 			android:key="net.shangtai.snmplights.USERNAME"
 			android:title="@string/prefs_username"
-			android:singleLine="true"
+			android:maxLines="1"
 			android:defaultValue="snmpuser" />
-		<EditTextPreference
-			android:key="net.shangtai.snmplights.AUTH_PASSWORD"
-			android:title="@string/prefs_auth_password"
-			android:singleLine="true"
-			android:password="true"
-			android:defaultValue="password" />
 		<ListPreference
 			android:key="net.shangtai.snmplights.AUTH_PROTOCOL"
 			android:title="@string/prefs_auth_protocol"
 			android:dialogTitle="@string/prefs_auth_protocol"
 			android:entries="@array/prefs_protocols"
-			android:entryValues="@array/prefs_protocols"
-			android:defaultValue="SHA" />
+			android:entryValues="@array/prefs_protocols" />
 		<EditTextPreference
-			android:key="net.shangtai.snmplights.HOST"
-			android:title="@string/prefs_host"
-			android:singleLine="true"
-			android:defaultValue="" />
+			android:key="net.shangtai.snmplights.AUTH_PASSWORD"
+			android:title="@string/prefs_auth_password"
+			android:maxLines="1"
+			android:inputType="textPassword" />
+		<ListPreference
+			android:key="net.shangtai.snmplights.PRIV_PROTOCOL"
+			android:title="@string/prefs_priv_protocol"
+			android:dialogTitle="@string/prefs_priv_protocol" />
 		<EditTextPreference
-			android:key="net.shangtai.snmplights.PORT"
-			android:title="@string/prefs_port"
-			android:singleLine="true"
-			android:defaultValue="161" />
+			android:key="net.shangtai.snmplights.PRIV_PASSWORD"
+			android:title="@string/prefs_priv_password"
+			android:maxLines="1"
+			android:inputType="textPassword" />
 	</PreferenceCategory>
 </PreferenceScreen>

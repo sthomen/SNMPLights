@@ -6,12 +6,16 @@
 
 	<string name="prefs_snmp">SNMP Settings</string>
 	<string name="prefs_oidbase">OID base</string>
-	<string name="prefs_oidbase_summary">The base OID to use</string>
-	<string name="prefs_username">SNMP Username</string>
-	<string name="prefs_auth_password">SNMP Auth Password</string>
-	<string name="prefs_auth_protocol">SNMP Auth Protocol</string>
 	<string name="prefs_host">SNMP Agent Hostname</string>
 	<string name="prefs_port">SNMP Agent Port</string>
+	<string name="prefs_username">SNMPv3 Username</string>
+	<string name="prefs_auth_password">SNMPv3 Auth Password</string>
+	<string name="prefs_auth_protocol">SNMPv3 Auth Protocol</string>
+	<string name="prefs_priv_password">SNMPv3 Priv Password</string>
+	<string name="prefs_priv_protocol">SNMPv3 Priv Protocol</string>
+
+	<!-- indicates no value in a list -->
+	<string name="none">None</string>
 
 	<string name="preferences">Preferences</string>
 
