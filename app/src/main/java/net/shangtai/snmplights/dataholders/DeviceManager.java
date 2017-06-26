@@ -35,7 +35,10 @@ public class DeviceManager {
 	private String oidbase="";
 	private List<Device> devices = new ArrayList<Device>();
 
+	private Context context;
+
 	public DeviceManager(Context context) {
+		this.context=context;
 		prefs=PreferenceManager.getDefaultSharedPreferences(context);
 
 		oidbase=prefs.getString(Preferences.PREF_OIDBASE, "");
@@ -90,6 +93,9 @@ public class DeviceManager {
 		Map<Integer,String[]> devs = new HashMap<Integer,String[]>();
 
 		try {
+			if (!helper.validateSetup())
+				return null;
+
 			Map<String,String> results = helper.walk(oidbase).getContents();
 			Set<String> resultkeys = results.keySet();
 
@@ -162,7 +168,6 @@ public class DeviceManager {
 				.setName(values[getMibIndex("name")]);
 
 			devices.add(device);
-			Log.d(SNMPLightsActivity.TAG, device.toString());
 		} while (iter.hasNext());
 	}
 
