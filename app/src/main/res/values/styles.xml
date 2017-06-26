@@ -1,11 +1,31 @@
+<!-- vim:set ts=4 sw=4: -->
 <resources>
+	<style name="AppTheme" parent="@android:style/Theme.Material">
+		<item name="android:colorPrimary">@color/colorPrimary</item>
+		<item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="android:colorAccent">@color/colorAccent</item>
+	</style>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="@android:style/Theme.Material">
-        <!-- Customize your theme here. -->
-        <item name="android:colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:colorAccent">@color/colorAccent</item>
-    </style>
+	<style name="recycler_view">
+		<item name="android:padding">8dp</item>
+	</style>
 
+	<style name="card">
+		<item name="android:layout_margin">8dp</item>
+		<item name="android:padding">8dp</item>
+		<item name="android:background">@drawable/card</item>
+		<item name="android:elevation">2dp</item>
+	</style>
+
+	<style name="card_title">
+		<item name="android:textSize">20dp</item>
+		<item name="android:padding">8dp</item>
+	</style>
+
+	<style name="card_button">
+		<item name="android:layout_margin">8dp</item>
+		<item name="android:background">@drawable/button</item>
+		<item name="android:textColor">@color/cardButtonTextColor</item>
+		<item name="android:elevation">2dp</item>
+	</style>
 </resources>

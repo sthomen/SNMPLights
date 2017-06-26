@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
+	android:layout_height="wrap_content"
+	style="@style/card">
 
 	<TextView
 		android:id="@+id/title"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentRight="true"
-		android:text="title" />
+		android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"
+		style="@style/card_title" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -20,13 +21,15 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="0.5"
-			android:text="@string/switch_on" />
+			android:text="@string/switch_on"
+			style="@style/card_button" />
 
 		<Button	
 			android:id="@+id/off_button"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="0.5"
-			android:text="@string/switch_off" />
+			android:text="@string/switch_off"
+			style="@style/card_button" />
 	</LinearLayout>
 </RelativeLayout>

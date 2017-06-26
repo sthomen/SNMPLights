@@ -12,5 +12,7 @@
 		android:layout_alignParentTop="true"
 		android:layout_alignParentBottom="true"
 		android:layout_alignParentLeft="true"
-		android:layout_alignParentRight="true" />
+		android:layout_alignParentRight="true"
+
+		style="@style/recycler_view" />
 </RelativeLayout>
