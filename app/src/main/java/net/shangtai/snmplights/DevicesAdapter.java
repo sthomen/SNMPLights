@@ -93,15 +93,27 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 
 			on.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					Switch device=(Switch)v.getTag();
-					device.on();
+					final View _v = v;
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							Switch device=(Switch)_v.getTag();
+							device.on();
+						}
+					}).start();
 				}
 			});
 
 			off.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					Switch device=(Switch)v.getTag();
-					device.off();
+					final View _v = v;
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							Switch device=(Switch)_v.getTag();
+							device.off();
+						}
+					}).start();
 				}
 			});
 		}
@@ -111,7 +123,7 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 
 			sb.setTag(device);
 			sb.setMax(255);
-			sb.setProgress(Integer.valueOf(device.getValue()), true);
+			sb.setProgress(Integer.valueOf(device.getValue()));
 
 			sb.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
 				public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
@@ -121,8 +133,14 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 				}
 
 				public void onStopTrackingTouch(SeekBar sb) {
-					Dimmer device=(Dimmer)sb.getTag();
-					device.dim(sb.getProgress());
+					final SeekBar _sb = sb;
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							Dimmer device=(Dimmer)_sb.getTag();
+							device.dim(_sb.getProgress());
+						}
+					}).start();
 				}
 			});
 		}
