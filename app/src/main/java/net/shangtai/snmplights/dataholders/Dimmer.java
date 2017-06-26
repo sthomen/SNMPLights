@@ -5,7 +5,8 @@ public class Dimmer extends Device {
 		this.dm = dm;
 	}
 
-	public void set(int value) {
+	public void dim(int value) {
+		dm.setValue(index, value);
 	}
 }
 

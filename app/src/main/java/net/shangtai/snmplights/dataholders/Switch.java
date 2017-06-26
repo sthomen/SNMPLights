@@ -6,8 +6,10 @@ public class Switch extends Device {
 	}
 
 	public void on() {
+		dm.setValue(index, 1);
 	}
 
 	public void off() {
+		dm.setValue(index, 0);
 	}
 }

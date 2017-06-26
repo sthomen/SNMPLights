@@ -45,6 +45,9 @@ public class DeviceManager {
 		instantiateDevices(loadDevices());
 	}
 
+	/*
+	 * Setup & loading
+	 */
 	private void setupHelper() {
 		String hoststr=createHostString("udp",
 			prefs.getString(Preferences.PREF_HOST, ""),
@@ -68,6 +71,7 @@ public class DeviceManager {
 			helper.setPrivHash(privhash)
 				.setPrivPassword(privpass);
 		}
+
 	}
 
 	private String createHostString(String protocol, String host, Integer port) {
@@ -85,13 +89,9 @@ public class DeviceManager {
 	private Map<Integer,String[]> loadDevices() {
 		Map<Integer,String[]> devs = new HashMap<Integer,String[]>();
 
-		Log.d(SNMPLightsActivity.TAG, "loadDevices");
-
 		try {
 			Map<String,String> results = helper.walk(oidbase).getContents();
 			Set<String> resultkeys = results.keySet();
-
-			Log.d(SNMPLightsActivity.TAG, results.toString());
 
 			// device
 
@@ -109,21 +109,19 @@ public class DeviceManager {
 				String key = (String)iter.next();
 				String[] parts = key.split("\\.");
 
-				index=Integer.valueOf(parts[parts.length]);
-				type=Integer.valueOf(parts[parts.length - 1]);
+				index=Integer.valueOf(parts[parts.length - 1]);
+				type=Integer.valueOf(parts[parts.length - 2]);
 
 				value=results.get(key);
 
 				if (!devs.containsKey(index)) {
-					current=new String[mib.length];
+					current=new String[mib.length+1];
 				} else {
 					current=devs.get(index);
 				}
 
 				current[type]=value;
 				devs.put(index, current);
-
-				Log.d(SNMPLightsActivity.TAG, new Integer(index).toString() + ": " + mib[type] + " -> " + value);
 
 			} while (iter.hasNext());
 		} catch (IOException e) {
@@ -135,21 +133,21 @@ public class DeviceManager {
 	}
 
 	private void instantiateDevices(Map<Integer,String[]> devs) {
-		Log.d(SNMPLightsActivity.TAG, "instantiateDevices");
-
 		if (devs == null)
 			return;
-
-		Log.d(SNMPLightsActivity.TAG, "instantiateDevices: past null check");
 
 		Device device;
 		Set<Integer> devskeys = devs.keySet();
 		Iterator iter = devskeys.iterator();
 
-		int index=1;
-
 		do {
-			String[] values=(String[])iter.next();
+			Integer index=(Integer)iter.next();
+			String[] values=devs.get(index);
+
+			/* XXX
+			 * The only real indication we have that the device is capable
+			 * of dimming is the model.
+			 */
 
 			if (values[getMibIndex("model")].contains("dimmer")) {	// dimmable
 				device = (Device)new Dimmer(this);
@@ -157,22 +155,68 @@ public class DeviceManager {
 				device = (Device)new Switch(this);
 			}
 
-			device.setIndex(index++)
+			device.setIndex(index)
 				.setProtocol(values[getMibIndex("protocol")])
 				.setModel(values[getMibIndex("model")])
 				.setValue(values[getMibIndex("value")])
 				.setName(values[getMibIndex("name")]);
 
 			devices.add(device);
+			Log.d(SNMPLightsActivity.TAG, device.toString());
 		} while (iter.hasNext());
+	}
 
-		Log.d(SNMPLightsActivity.TAG, devices.toString());
+	/*
+	 * Usage
+	 */
+
+	public int countDevices() {
+		return devices.size();
+	}
+
+	public Device getDeviceByIndex(int index) {
+		if (index > devices.size())
+			return null;
+
+		return devices.get(index);
+	}
+
+	public void setValue(int index, Integer value) {
+		setValue(index, value.toString());
+	}
+
+	public void setValue(int index, String value) {
+		String oidstr=indexToOIDString(getMibIndex("value"), index);
+
+		Log.d(SNMPLightsActivity.TAG, oidstr + ": " + value);
+
+		try {
+			helper.set(oidstr, "gauge32", value);
+		} catch (IOException e) {
+			Log.e(SNMPLightsActivity.TAG, e.getMessage());
+		}
+	}
+
+	/*
+	 * Utility
+	 */
+
+	private String indexToOIDString(Integer type, Integer index) {
+		StringBuilder sb=new StringBuilder();
+
+		sb.append(oidbase);
+		sb.append(".");
+		sb.append(type.toString());
+		sb.append(".");
+		sb.append(index.toString());
+
+		return sb.toString();
 	}
 
 	private int getMibIndex(String name) {
 		for (int i=0;i<mib.length;i++) {
 			if (mib[i].equals(name))
-				return i;
+				return i+1;		/* starts from 1 */
 		}
 
 		throw new IllegalArgumentException("Attempted to get the index of a MIB that doesn't exist");
