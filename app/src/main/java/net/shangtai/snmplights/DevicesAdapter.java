@@ -1,9 +1,8 @@
 package net.shangtai.snmplights;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-
-import net.shangtai.snmphelper.SnmpHelper;
 
 import android.support.v7.widget.RecyclerView;
 
@@ -11,10 +10,7 @@ import android.support.v7.widget.RecyclerView;
 // R.layout.dimmer
 
 class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
-	SnmpHelper helper;
-
 	DevicesAdapter() {
-		helper=new SnmpHelper();
 		setHasStableIds(true);
 	}
 

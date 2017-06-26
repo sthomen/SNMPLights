@@ -22,7 +22,7 @@ public class DevicesFragment extends Fragment {
 		RecyclerView reclist = (RecyclerView)root.findViewById(R.id.devices);
 		reclist.setLayoutManager(llm);
 
-		DevicesAdapter da = new DevicesAdapter();
+		DevicesAdapter da = new DevicesAdapter(getContext());
 
 		reclist.setAdapter(da);
 

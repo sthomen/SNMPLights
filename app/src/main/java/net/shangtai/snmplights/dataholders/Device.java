@@ -1,48 +1,60 @@
 package net.shangtai.snmplights;
-public class Device {
-    private Integer index;
-    private String protocol;
-    private String model;
-    private Integer value;
-    private String name;
 
-    public Integer getIndex() {
-        return index;
-    }
+public abstract class Device {
+	protected Integer index = null;
+	protected String protocol = null;
+	protected String model = null;
+	protected Integer value = null;
+	protected String name = null;
+	protected DeviceManager dm = null;
 
-    public String getProtocol() {
-        return protocol;
-    }
+	public Integer getIndex() {
+		return index;
+	}
 
-    public String getModel() {
-        return model;
-    }
+	public String getProtocol() {
+		return protocol;
+	}
 
-    public Integer getValue() {
-        return value;
-    }
+	public String getModel() {
+		return model;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Integer getValue() {
+		return value;
+	}
 
-    public void setIndex(Integer index) {
-        this.index = index;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
+	public Device setIndex(Integer index) {
+		this.index = index;
+		return this;
+	}
 
-    public void setModel(String model) {
-        this.model = model;
-    }
+	public Device setProtocol(String protocol) {
+		this.protocol = protocol;
+		return this;
+	}
 
-    public void setValue(Integer value) {
-        this.value = value;
-    }
+	public Device setModel(String model) {
+		this.model = model;
+		return this;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public Device setValue(String value) {
+		this.value = Integer.valueOf(value);
+		return this;
+	}
+
+	public Device setValue(Integer value) {
+		this.value = value;
+		return this;
+	}
+
+	public Device setName(String name) {
+		this.name = name;
+		return this;
+	}
 }
