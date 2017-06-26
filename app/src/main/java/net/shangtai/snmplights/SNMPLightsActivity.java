@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.util.Log;
+
 public class SNMPLightsActivity extends Activity {
 	// logging tag
 	public final static String TAG="SNMPLights";
@@ -26,6 +28,12 @@ public class SNMPLightsActivity extends Activity {
 		setContentView(R.layout.main);
 
 		addDevicesFragment();
+	}
+
+	@Override
+	public void onActivityResult(int req, int res, Intent data) {
+		DevicesFragment df=(DevicesFragment)fm.findFragmentByTag(FRAG_DEVICES);
+		df.refresh();
 	}
 
 	@Override

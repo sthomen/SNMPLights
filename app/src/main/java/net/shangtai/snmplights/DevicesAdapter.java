@@ -15,14 +15,21 @@ import android.support.v7.widget.RecyclerView;
 // R.layout.dimmer
 
 class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
-	private final static int SWITCH=0;
-	private final static int DIMMER=1;
+	private final static int SWITCH = 0;
+	private final static int DIMMER = 1;
 
-	DeviceManager dm=null;
+	private Context context = null;
+
+	DeviceManager dm = null;
 
 	DevicesAdapter(Context context) {
 		setHasStableIds(true);
+		this.context = context;
 
+		refresh();
+	}
+
+	public void refresh() {
 		new LoadDevicesTask(context, this).execute();
 	}
 
@@ -146,8 +153,6 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 		}
 		
 	}
-
-
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 		public View entry;

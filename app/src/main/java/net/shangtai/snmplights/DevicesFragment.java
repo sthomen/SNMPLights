@@ -13,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
 
 public class DevicesFragment extends Fragment {
+	private DevicesAdapter da=null;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
 		View root=inflater.inflate(R.layout.devices_fragment, container, false);
@@ -22,10 +24,14 @@ public class DevicesFragment extends Fragment {
 		RecyclerView reclist = (RecyclerView)root.findViewById(R.id.devices);
 		reclist.setLayoutManager(llm);
 
-		DevicesAdapter da = new DevicesAdapter(getContext());
+		da = new DevicesAdapter(getContext());
 
 		reclist.setAdapter(da);
 
 		return root;
+	}
+
+	public void refresh() {
+		da.refresh();
 	}
 }
