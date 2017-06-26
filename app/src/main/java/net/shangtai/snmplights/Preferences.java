@@ -17,8 +17,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Collections;
 
-import android.util.Log;
-
 public class Preferences extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 	public final static String PREF_OIDBASE="net.shangtai.snmplights.OIDBASE";
 	public final static String PREF_USERNAME="net.shangtai.snmplights.USERNAME";
@@ -126,8 +124,9 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 		Collections.sort(options);
 		options.add(0, "");
 
-		p.setEntries(optionsListToNamesArray(options));
+		// ORDER IS IMPORTANT, VALUES BEFORE ENTRIES
 		p.setEntryValues(options.toArray(new String[options.size()]));
+		p.setEntries(optionsListToNamesArray(options));
 	}
 
 	private void loadPrivProtocols() {
@@ -138,8 +137,9 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 		Collections.sort(options);
 		options.add(0, "");
 
-		p.setEntries(optionsListToNamesArray(options));
+		// ORDER IS IMPORTANT, VALUES BEFORE ENTRIES
 		p.setEntryValues(options.toArray(new String[options.size()]));
+		p.setEntries(optionsListToNamesArray(options));
 	}
 
 	private String[] optionsListToNamesArray(ArrayList<String> options) {
