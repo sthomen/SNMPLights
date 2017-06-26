@@ -24,9 +24,7 @@
 		<ListPreference
 			android:key="net.shangtai.snmplights.AUTH_PROTOCOL"
 			android:title="@string/prefs_auth_protocol"
-			android:dialogTitle="@string/prefs_auth_protocol"
-			android:entries="@array/prefs_protocols"
-			android:entryValues="@array/prefs_protocols" />
+			android:dialogTitle="@string/prefs_auth_protocol" />
 		<EditTextPreference
 			android:key="net.shangtai.snmplights.AUTH_PASSWORD"
 			android:title="@string/prefs_auth_password"
