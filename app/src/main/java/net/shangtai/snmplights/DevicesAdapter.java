@@ -11,12 +11,16 @@ import android.widget.SeekBar;
 
 import android.support.v7.widget.RecyclerView;
 
+import android.util.Log;
+
 // R.layout.switch
 // R.layout.dimmer
 
 class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
-	private final static int SWITCH = 0;
-	private final static int DIMMER = 1;
+	private final static int EMPTY = 0;
+	private final static int INVALID = 1;
+	private final static int SWITCH = 2;
+	private final static int DIMMER = 3;
 
 	private Context context = null;
 
@@ -33,18 +37,34 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 		new LoadDevicesTask(context, this).execute();
 	}
 
+	private boolean isValid() {
+		if (dm != null && dm.isValid())
+			return true;
+
+		return false;
+	}
+
 	// Adapter methods
 
 	@Override
 	public int getItemCount() {
-		if (dm == null)
-			return 0;
+		int count=1;				// invalid view
 
-		return dm.countDevices();
+		if (isValid()) {
+			count=dm.countDevices();
+
+			if (count==0)
+				count=1;		// empty view
+		}
+		
+		return count;
 	}
 
 	@Override
 	public int getItemViewType(int position) {
+		if (!isValid())
+			return INVALID;
+
 		Device device = dm.getDeviceByIndex(position);
 
 		if (device instanceof Switch) {
@@ -53,7 +73,7 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 			return DIMMER;
 		}
 
-		return -1;
+		return EMPTY;
 	}
 
 
@@ -66,8 +86,16 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 	public DevicesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int vt) {
 		int layout;
 
+		Log.d(SNMPLightsActivity.TAG, "The view type is " + Integer.valueOf(vt).toString());
+
 		switch (vt) {
 			default:
+			case EMPTY:
+				layout=R.layout.empty;
+				break;
+			case INVALID:
+				layout=R.layout.invalid;
+				break;
 			case SWITCH:
 				layout=R.layout.toggle;
 				break;
@@ -86,12 +114,18 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
+		int type = holder.getType();
+
+		// short circuit for invalid and empty types
+		if (type == INVALID || type == EMPTY)
+			return;
+
 		Device device = dm.getDeviceByIndex(position);
 
 		TextView title = (TextView)holder.entry.findViewById(R.id.title);
 		title.setText(device.getName());
 
-		if (holder.getType() == SWITCH) {
+		if (type == SWITCH) {
 			Button on = (Button)holder.entry.findViewById(R.id.on_button);
 			Button off = (Button)holder.entry.findViewById(R.id.off_button);
 
@@ -125,7 +159,7 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 			});
 		}
 
-		if (holder.getType() == DIMMER) {
+		if (type == DIMMER) {
 			SeekBar sb = (SeekBar)holder.entry.findViewById(R.id.seekbar);
 
 			sb.setTag(device);

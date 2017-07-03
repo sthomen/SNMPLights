@@ -175,12 +175,18 @@ public class DeviceManager {
 	 * Usage
 	 */
 
+	public boolean isValid() {
+		return helper.validateSetup();
+	}
+
 	public int countDevices() {
 		return devices.size();
 	}
 
 	public Device getDeviceByIndex(int index) {
-		if (index > devices.size())
+		int size=devices.size();
+
+		if (index < 0 || index > size || size == 0)
 			return null;
 
 		return devices.get(index);

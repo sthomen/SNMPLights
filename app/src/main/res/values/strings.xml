@@ -27,4 +27,10 @@
 	<!-- switches -->
 	<string name="switch_on">On</string>
 	<string name="switch_off">Off</string>
+
+	<!-- empty -->
+	<string name="empty">No devices found</string>
+
+	<!-- invalid -->
+	<string name="invalid">Invalid configuration</string>
 </resources>
