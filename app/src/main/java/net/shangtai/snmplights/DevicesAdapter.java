@@ -44,20 +44,21 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 		return false;
 	}
 
+	private boolean isEmpty() {
+		if (dm == null || dm.countDevices() > 0)
+			return false;
+
+		return true;
+	}
+
 	// Adapter methods
 
 	@Override
 	public int getItemCount() {
-		int count=1;				// invalid view
-
-		if (isValid()) {
-			count=dm.countDevices();
-
-			if (count==0)
-				count=1;		// empty view
-		}
+		if (isEmpty() || !isValid())
+			return 1;
 		
-		return count;
+		return dm.countDevices();
 	}
 
 	@Override
