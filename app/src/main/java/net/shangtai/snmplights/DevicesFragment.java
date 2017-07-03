@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 
 public class DevicesFragment extends Fragment {
 	private DevicesAdapter da=null;
@@ -19,10 +20,15 @@ public class DevicesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
 		View root=inflater.inflate(R.layout.devices_fragment, container, false);
 
-		LinearLayoutManager llm = new LinearLayoutManager((Context)getActivity());
-
 		RecyclerView reclist = (RecyclerView)root.findViewById(R.id.devices);
-		reclist.setLayoutManager(llm);
+
+		if (getResources().getBoolean(R.bool.tablet)) {
+			GridLayoutManager glm = new GridLayoutManager((Context)getActivity(), getResources().getInteger(R.integer.columns));
+			reclist.setLayoutManager(glm);
+		} else { // linear for phones
+			LinearLayoutManager llm = new LinearLayoutManager((Context)getActivity());
+			reclist.setLayoutManager(llm);
+		}
 
 		da = new DevicesAdapter(getContext());
 
