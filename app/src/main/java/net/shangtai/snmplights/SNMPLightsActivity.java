@@ -1,6 +1,7 @@
 package net.shangtai.snmplights;
 
 import android.app.Activity;
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -26,6 +27,10 @@ public class SNMPLightsActivity extends Activity {
 		fm=getFragmentManager();
 
 		setContentView(R.layout.main);
+
+		ActionBar ab=getActionBar();
+
+		ab.setDisplayOptions(ActionBar.DISPLAY_USE_LOGO | ActionBar.DISPLAY_SHOW_HOME);
 
 		addDevicesFragment();
 	}
