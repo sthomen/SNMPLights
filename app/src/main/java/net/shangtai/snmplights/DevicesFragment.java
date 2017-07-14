@@ -37,6 +37,14 @@ public class DevicesFragment extends Fragment {
 		return root;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		if (da != null)
+			da.refresh();
+	}
+
 	public void refresh() {
 		da.refresh();
 	}

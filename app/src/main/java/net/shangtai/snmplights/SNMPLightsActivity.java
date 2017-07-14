@@ -36,12 +36,6 @@ public class SNMPLightsActivity extends Activity {
 	}
 
 	@Override
-	public void onActivityResult(int req, int res, Intent data) {
-		DevicesFragment df=(DevicesFragment)fm.findFragmentByTag(FRAG_DEVICES);
-		df.refresh();
-	}
-
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.actionbar, menu);
 
