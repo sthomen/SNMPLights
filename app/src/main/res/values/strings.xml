@@ -21,6 +21,7 @@
 
 	<!-- menu -->
 	<string name="menu_prefs">Prefs</string>
+	<string name="menu_refresh">Refresh</string>
 
 	<!-- devices -->
 

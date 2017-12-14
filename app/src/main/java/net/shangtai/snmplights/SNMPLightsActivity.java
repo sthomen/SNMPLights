@@ -45,12 +45,21 @@ public class SNMPLightsActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.menu_refresh:
+				refresh();
+				break;
 			case R.id.menu_prefs:
 				startActivityForResult(new Intent(getBaseContext(), Preferences.class), 0);
 				return true;	/* this event was handled here */
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	protected void refresh() {
+		DevicesFragment df;
+		df=(DevicesFragment)fm.findFragmentByTag(FRAG_DEVICES);
+		df.refresh();
 	}
 
 	protected void addDevicesFragment() {

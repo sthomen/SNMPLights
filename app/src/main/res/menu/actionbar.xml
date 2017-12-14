@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_refresh"
+	android:title="@string/menu_refresh"
+	android:showAsAction="ifRoom"
+	android:icon="@drawable/reload"
+	android:orderInCategory="1" />
     <item android:id="@+id/menu_prefs"
 	android:title="@string/menu_prefs"
 	android:showAsAction="ifRoom"
 	android:icon="@drawable/ic_settings_white_24dp"
-	android:orderInCategory="1" />
+	android:orderInCategory="2" />
 </menu>
