@@ -23,7 +23,7 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 	private final static int SWITCH = 2;
 	private final static int DIMMER = 3;
 
-	private Context context = null;
+	private Context context;
 
 	DeviceManager dm = null;
 
@@ -123,12 +123,12 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 
 		Device device = dm.getDeviceByIndex(position);
 
-		TextView title = (TextView)holder.entry.findViewById(R.id.title);
+		TextView title = holder.entry.findViewById(R.id.title);
 		title.setText(device.getName());
 
 		if (type == SWITCH) {
-			Button on = (Button)holder.entry.findViewById(R.id.on_button);
-			Button off = (Button)holder.entry.findViewById(R.id.off_button);
+			Button on = holder.entry.findViewById(R.id.on_button);
+			Button off = holder.entry.findViewById(R.id.off_button);
 
 			on.setTag(device);
 			off.setTag(device);
@@ -161,7 +161,7 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 		}
 
 		if (type == DIMMER) {
-			SeekBar sb = (SeekBar)holder.entry.findViewById(R.id.seekbar);
+			SeekBar sb = holder.entry.findViewById(R.id.seekbar);
 
 			sb.setTag(device);
 			sb.setMax(255);
@@ -208,8 +208,8 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 	}
 
 	private class LoadDevicesTask extends AsyncTask<Void, Void, DeviceManager> {
-		Context context = null;
-		RecyclerView.Adapter adapter = null;
+		Context context;
+		RecyclerView.Adapter adapter;
 
 		LoadDevicesTask(Context context, RecyclerView.Adapter adapter) {
 			this.adapter = adapter;

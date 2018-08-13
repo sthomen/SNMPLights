@@ -32,13 +32,10 @@ public class DeviceManager {
 	private SharedPreferences prefs;
 	private SnmpHelper helper = new SnmpHelper();
 
-	private String oidbase="";
-	private List<Device> devices = new ArrayList<Device>();
-
-	private Context context;
+	private String oidbase;
+	private List<Device> devices = new ArrayList<>();
 
 	public DeviceManager(Context context) {
-		this.context=context;
 		prefs=PreferenceManager.getDefaultSharedPreferences(context);
 
 		oidbase=prefs.getString(PreferencesFragment.PREF_OIDBASE, "");
@@ -90,7 +87,7 @@ public class DeviceManager {
 	}
 
 	private Map<Integer,String[]> loadDevices() {
-		Map<Integer,String[]> devs = new HashMap<Integer,String[]>();
+		Map<Integer,String[]> devs = new HashMap<>();
 
 		try {
 			if (!helper.validateSetup())
@@ -156,9 +153,9 @@ public class DeviceManager {
 			 */
 
 			if (values[getMibIndex("model")].contains("dimmer")) {	// dimmable
-				device = (Device)new Dimmer(this);
+				device = new Dimmer(this);
 			} else {						// switch
-				device = (Device)new Switch(this);
+				device = new Switch(this);
 			}
 
 			device.setIndex(index)
