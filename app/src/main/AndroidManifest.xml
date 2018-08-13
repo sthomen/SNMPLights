@@ -19,12 +19,6 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-
-		<activity
-			android:name="Preferences"
-			android:label="@string/prefs_name">
-		</activity>
-
 	</application>
 
 </manifest>

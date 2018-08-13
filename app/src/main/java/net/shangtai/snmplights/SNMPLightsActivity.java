@@ -18,6 +18,7 @@ public class SNMPLightsActivity extends Activity {
 	public final static String TAG="SNMPLights";
 	// fragment
 	public final static String FRAG_DEVICES="net.shangtai.snmplights.DEVICES";
+	private static final String FRAG_PREFS = "net.shangtai.snmplights.PREFERENCES";
 
 	private FragmentManager fm;
 
@@ -49,7 +50,7 @@ public class SNMPLightsActivity extends Activity {
 				refresh();
 				break;
 			case R.id.menu_prefs:
-				startActivityForResult(new Intent(getBaseContext(), Preferences.class), 0);
+				addPreferencesFragment();
 				return true;	/* this event was handled here */
 		}
 
@@ -72,6 +73,21 @@ public class SNMPLightsActivity extends Activity {
  
 			fm.beginTransaction()
 				.add(R.id.main, df, FRAG_DEVICES)
+				.commit();
+		}
+	}
+
+	protected void addPreferencesFragment() {
+		PreferencesFragment pf;
+
+		pf=(PreferencesFragment) fm.findFragmentByTag(FRAG_PREFS);
+
+		if (pf == null) {
+			pf = new PreferencesFragment();
+
+			fm.beginTransaction()
+				.replace(R.id.main, pf, FRAG_PREFS)
+				.addToBackStack(FRAG_PREFS)
 				.commit();
 		}
 	}
