@@ -1,4 +1,4 @@
-package net.shangtai.snmplights;
+package net.shangtai.snmplights.dataholders;
 
 public abstract class Device {
 	protected Integer index = null;

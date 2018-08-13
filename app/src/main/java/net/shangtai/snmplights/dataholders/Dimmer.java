@@ -1,4 +1,4 @@
-package net.shangtai.snmplights;
+package net.shangtai.snmplights.dataholders;
 
 public class Dimmer extends Device {
 	public Dimmer(DeviceManager dm) {

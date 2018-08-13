@@ -1,4 +1,4 @@
-package net.shangtai.snmplights;
+package net.shangtai.snmplights.dataholders;
 
 public class Switch extends Device {
 	public Switch(DeviceManager dm) {

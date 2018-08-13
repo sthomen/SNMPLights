@@ -1,4 +1,4 @@
-package net.shangtai.snmplights;
+package net.shangtai.snmplights.dataholders;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.lang.IllegalArgumentException;
 
 import net.shangtai.snmphelper.SnmpHelper;
-import net.shangtai.snmphelper.SnmpHelperTree;
+import net.shangtai.snmplights.*;
 
 public class DeviceManager {
 	// NOTE: Order is important
@@ -41,7 +41,7 @@ public class DeviceManager {
 		this.context=context;
 		prefs=PreferenceManager.getDefaultSharedPreferences(context);
 
-		oidbase=prefs.getString(Preferences.PREF_OIDBASE, "");
+		oidbase=prefs.getString(PreferencesFragment.PREF_OIDBASE, "");
 
 		setupHelper();
 
@@ -53,17 +53,17 @@ public class DeviceManager {
 	 */
 	private void setupHelper() {
 		String hoststr=createHostString("udp",
-			prefs.getString(Preferences.PREF_HOST, ""),
-			Integer.valueOf(prefs.getString(Preferences.PREF_PORT, "161")));
+			prefs.getString(PreferencesFragment.PREF_HOST, ""),
+			Integer.valueOf(prefs.getString(PreferencesFragment.PREF_PORT, "161")));
 
-		String authhash=prefs.getString(Preferences.PREF_AUTH_PROTOCOL, "");
-		String authpass=prefs.getString(Preferences.PREF_AUTH_PASSWORD, "");
-		String privhash=prefs.getString(Preferences.PREF_PRIV_PROTOCOL, "");
-		String privpass=prefs.getString(Preferences.PREF_PRIV_PASSWORD, "");
+		String authhash=prefs.getString(PreferencesFragment.PREF_AUTH_PROTOCOL, "");
+		String authpass=prefs.getString(PreferencesFragment.PREF_AUTH_PASSWORD, "");
+		String privhash=prefs.getString(PreferencesFragment.PREF_PRIV_PROTOCOL, "");
+		String privpass=prefs.getString(PreferencesFragment.PREF_PRIV_PASSWORD, "");
 
 		helper.setVersion("3")
 			.setAddress(hoststr)
-			.setUsername(prefs.getString(Preferences.PREF_USERNAME, ""));
+			.setUsername(prefs.getString(PreferencesFragment.PREF_USERNAME, ""));
 
 		if (!authhash.isEmpty()) {
 			helper.setAuthHash(authhash)
