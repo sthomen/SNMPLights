@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- vim:set ts=4 sw=4: -->
 <resources>
 	<color name="colorPrimary">#A0C050</color>
 	<color name="colorPrimaryDark">#6F901F</color>
 	<color name="colorAccent">#D3F380</color>
 
 	<color name="cardBackground">#505050</color>
-	<color name="cardButtonBackground">@color/colorAccent</color>
-	<color name="cardButtonTextColor">#000000</color>
+	<color name="cardButtonBackground">@color/colorPrimary</color>
+	<color name="cardButtonTextColor">#FFFFFF</color>
+	<color name="cardButtonBackgroundRipple">#1FFFFFFF</color>
+	<color name="cardButtonBackgroundPressed">@color/colorAccent</color>
 </resources>
