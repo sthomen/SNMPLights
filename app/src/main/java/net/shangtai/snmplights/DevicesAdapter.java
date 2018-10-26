@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 
 import android.support.v7.widget.RecyclerView;
+
 import net.shangtai.snmplights.dataholders.*;
 
 import android.util.Log;
@@ -49,15 +50,15 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 
 	@Override
 	public int getItemCount() {
-		int count=1;				// invalid view
+		int count = 1;                // invalid view
 
 		if (isValid()) {
-			count=dm.countDevices();
+			count = dm.countDevices();
 
-			if (count==0)
-				count=1;		// empty view
+			if (count == 0)
+				count = 1;        // empty view
 		}
-		
+
 		return count;
 	}
 
@@ -80,7 +81,7 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 
 	@Override
 	public long getItemId(int position) {
-		return position;	// there's a 1:1 relationship between position and device index (the id)
+		return position;    // there's a 1:1 relationship between position and device index (the id)
 	}
 
 	@Override
@@ -92,16 +93,16 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 		switch (vt) {
 			default:
 			case EMPTY:
-				layout=R.layout.empty;
+				layout = R.layout.empty;
 				break;
 			case INVALID:
-				layout=R.layout.invalid;
+				layout = R.layout.invalid;
 				break;
 			case SWITCH:
-				layout=R.layout.toggle;
+				layout = R.layout.toggle;
 				break;
 			case DIMMER:
-				layout=R.layout.dimmer;
+				layout = R.layout.dimmer;
 				break;
 		}
 
@@ -139,7 +140,7 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							Switch device=(Switch)_v.getTag();
+							Switch device = (Switch)_v.getTag();
 							device.on();
 						}
 					}).start();
@@ -152,7 +153,7 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							Switch device=(Switch)_v.getTag();
+							Switch device = (Switch)_v.getTag();
 							device.off();
 						}
 					}).start();
@@ -161,13 +162,29 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 		}
 
 		if (type == DIMMER) {
-			SeekBar sb = holder.entry.findViewById(R.id.seekbar);
+			final SeekBar sb = holder.entry.findViewById(R.id.seekbar);
+			Button off = holder.entry.findViewById(R.id.off_button);
+
+			off.setTag(device);
+			off.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					final View _v = v;
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							Dimmer device = (Dimmer)_v.getTag();
+							device.dim(0);
+							sb.setProgress(0);
+						}
+					}).start();
+				}
+			});
 
 			sb.setTag(device);
 			sb.setMax(255);
 			sb.setProgress(Integer.valueOf(device.getValue()));
 
-			sb.setOnSeekBarChangeListener( new SeekBar.OnSeekBarChangeListener() {
+			sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 				public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
 				}
 
@@ -179,14 +196,14 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							Dimmer device=(Dimmer)_sb.getTag();
+							Dimmer device = (Dimmer)_sb.getTag();
 							device.dim(_sb.getProgress());
 						}
 					}).start();
 				}
 			});
 		}
-		
+
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
@@ -195,7 +212,7 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 
 		public ViewHolder(View v) {
 			super(v);
-			entry=v;
+			entry = v;
 		}
 
 		public void setType(int type) {
