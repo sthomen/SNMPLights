@@ -26,7 +26,69 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 
 	private Context context;
 
-	DeviceManager dm = null;
+	private View.OnClickListener buttonListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			final View _v = v;
+			final ViewHolder viewHolder = (ViewHolder)_v.getTag();
+
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					Integer type = viewHolder.getType();
+
+					if (type == SWITCH) {
+						Switch device = (Switch)viewHolder.getDevice();
+
+						switch (_v.getId()) {
+							case R.id.on_button:
+								device.on();
+								break;
+							case R.id.off_button:
+								device.off();
+								break;
+						}
+					} else if (type == DIMMER) { // this can only ever be off
+						Dimmer device = (Dimmer)viewHolder.getDevice();
+						device.dim(0);
+
+						SeekBar sb = viewHolder.getView().findViewById(R.id.seekbar);
+						sb.setProgress(0);
+					}
+				}
+			});
+
+			t.start();
+		}
+	};
+
+	private SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+		@Override
+		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+		}
+
+		@Override
+		public void onStartTrackingTouch(SeekBar seekBar) {
+		}
+
+		@Override
+		public void onStopTrackingTouch(final SeekBar seekBar) {
+			final ViewHolder viewHolder = (ViewHolder)seekBar.getTag();
+
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					Dimmer device = (Dimmer)viewHolder.getDevice();
+					device.dim(seekBar.getProgress());
+				}
+			});
+
+			t.start();
+
+		}
+	};
+
+	private DeviceManager dm = null;
 
 	DevicesAdapter(Context context) {
 		setHasStableIds(true);
@@ -35,15 +97,12 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 		refresh();
 	}
 
-	public void refresh() {
+	void refresh() {
 		new LoadDevicesTask(context, this).execute();
 	}
 
 	private boolean isValid() {
-		if (dm != null && dm.isValid())
-			return true;
-
-		return false;
+		return dm != null && dm.isValid();
 	}
 
 	// Adapter methods
@@ -85,12 +144,12 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 	}
 
 	@Override
-	public DevicesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int vt) {
+	public DevicesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		int layout;
 
-		Log.d(SNMPLightsActivity.TAG, "The view type is " + Integer.valueOf(vt).toString());
+		Log.d(SNMPLightsActivity.TAG, "The view type is " + Integer.valueOf(viewType).toString());
 
-		switch (vt) {
+		switch (viewType) {
 			default:
 			case EMPTY:
 				layout = R.layout.empty;
@@ -107,16 +166,14 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 		}
 
 		final View v = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
-		final ViewHolder holder = new ViewHolder(v);
-
-		holder.setType(vt);
+		final ViewHolder holder = new ViewHolder(v, viewType);
 
 		return holder;
 	}
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		int type = holder.getType();
+		Integer type = holder.getType();
 
 		// short circuit for invalid and empty types
 		if (type == INVALID || type == EMPTY)
@@ -124,103 +181,67 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 
 		Device device = dm.getDeviceByIndex(position);
 
-		TextView title = holder.entry.findViewById(R.id.title);
+		holder.setDevice(device);
+
+		View base = holder.getView();
+
+		TextView title = base.findViewById(R.id.title);
 		title.setText(device.getName());
 
-		if (type == SWITCH) {
-			Button on = holder.entry.findViewById(R.id.on_button);
-			Button off = holder.entry.findViewById(R.id.off_button);
+		Button on = base.findViewById(R.id.on_button);
+		Button off = base.findViewById(R.id.off_button);
+		SeekBar sb = base.findViewById(R.id.seekbar);
 
-			on.setTag(device);
-			off.setTag(device);
+		// they all have off buttons
+		off.setTag(holder);
+		off.setOnClickListener(buttonListener);
 
-			on.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					final View _v = v;
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							Switch device = (Switch)_v.getTag();
-							device.on();
-						}
-					}).start();
-				}
-			});
-
-			off.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					final View _v = v;
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							Switch device = (Switch)_v.getTag();
-							device.off();
-						}
-					}).start();
-				}
-			});
+		if (on != null) {
+			on.setTag(holder);
+			on.setOnClickListener(buttonListener);
 		}
 
-		if (type == DIMMER) {
-			final SeekBar sb = holder.entry.findViewById(R.id.seekbar);
-			Button off = holder.entry.findViewById(R.id.off_button);
-
-			off.setTag(device);
-			off.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					final View _v = v;
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							Dimmer device = (Dimmer)_v.getTag();
-							device.dim(0);
-							sb.setProgress(0);
-						}
-					}).start();
-				}
-			});
-
-			sb.setTag(device);
+		if (sb != null) {
+			sb.setTag(holder);
 			sb.setMax(255);
 			sb.setProgress(Integer.valueOf(device.getValue()));
-
-			sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-				public void onProgressChanged(SeekBar sb, int progress, boolean fromUser) {
-				}
-
-				public void onStartTrackingTouch(SeekBar sb) {
-				}
-
-				public void onStopTrackingTouch(SeekBar sb) {
-					final SeekBar _sb = sb;
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							Dimmer device = (Dimmer)_sb.getTag();
-							device.dim(_sb.getProgress());
-						}
-					}).start();
-				}
-			});
+			sb.setOnSeekBarChangeListener(seekBarChangeListener);
 		}
-
 	}
 
-	public class ViewHolder extends RecyclerView.ViewHolder {
-		public View entry;
-		private int vt;
+	class ViewHolder extends RecyclerView.ViewHolder {
+		View view;
+		private Integer type;
+		private Device device;
 
-		public ViewHolder(View v) {
-			super(v);
-			entry = v;
+		ViewHolder(View view, Integer type) {
+			super(view);
+			setView(view);
+			setType(type);
 		}
 
-		public void setType(int type) {
-			vt = type;
+		void setView(View view) {
+			this.view = view;
 		}
 
-		public int getType() {
-			return vt;
+		View getView() {
+			return view;
+		}
+
+		void setType(int type) {
+			this.type = type;
+		}
+
+		int getType() {
+			return type;
+		}
+
+		void setDevice(Device device) {
+			this.device = device;
+		}
+
+		Device getDevice() {
+			return device;
 		}
 	}
 
