@@ -15,9 +15,6 @@ import net.shangtai.snmplights.dataholders.*;
 
 import android.util.Log;
 
-// R.layout.switch
-// R.layout.dimmer
-
 class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 	private final static int EMPTY = 0;
 	private final static int INVALID = 1;
@@ -109,13 +106,13 @@ class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 
 	@Override
 	public int getItemCount() {
-		int count = 1;                // invalid view
+		int count = 1;				// invalid view
 
 		if (isValid()) {
 			count = dm.countDevices();
 
 			if (count == 0)
-				count = 1;        // empty view
+				count = 1;			// empty view
 		}
 
 		return count;
